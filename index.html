@@ -1,1 +1,848 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" type="image/png" href="img/logo-ndalem-aa.png">
+<title>Ndalem AA Homestay — Dua ndalem untuk singgah</title>
+<meta name="description" content="Ndalem AA Homestay — dua unit homestay dengan tiga kamar tidur, cocok untuk keluarga dan rombongan. Pesan langsung lewat WhatsApp.">
 
+<!-- ============================================================
+     CARA GANTI NOMOR WHATSAPP & DATA:
+     Scroll ke paling bawah, cari blok "const CONFIG".
+     Semua nomor WA, harga, dan teks pesan diatur di sana.
+     ============================================================ -->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600&family=Karla:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  /* Palet klien — diambil dari referensi Formulaica (teal + lavender + cream) */
+  --teal:#2D5451;       /* teal pertengahan, aksen & pembatas */
+  --aqua:#EAE0D2;       /* tan-cream muda, background panel */
+  --euca:#6E6089;       /* lavender keunguan, tombol & tautan */
+  --shell:#F5F0E8;      /* cream, background utama */
+  --beige:#C9AC93;      /* tan hangat, penanda kecil */
+
+  /* Turunan gelap, supaya teks tetap terbaca */
+  --ink:#17251F;        /* teks utama, teal nyaris hitam */
+  --deep:#1F5C58;       /* hero & footer, teal dalam */
+  --label:#33625C;      /* label kecil huruf kapital */
+
+  --mist:var(--aqua);
+  --line:rgba(23,37,31,.16);
+
+  --display:'Fraunces',Georgia,serif;
+  --body:'Karla',system-ui,sans-serif;
+
+  --pad:clamp(20px,5vw,64px);
+  --maxw:1180px;
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:var(--body);
+  background:var(--shell);
+  color:var(--ink);
+  font-size:16px;
+  line-height:1.65;
+  -webkit-font-smoothing:antialiased;
+}
+img{max-width:100%;display:block}
+a{color:inherit}
+button,input,select{font:inherit;color:inherit}
+
+/* ---------- tipografi ---------- */
+.eyebrow{
+  font-size:11px;letter-spacing:.24em;text-transform:uppercase;
+  font-weight:600;color:var(--label);
+}
+h1,h2,h3{font-family:var(--display);font-weight:400;line-height:1.12;letter-spacing:-.01em}
+h1{font-size:clamp(38px,6.5vw,74px)}
+h2{font-size:clamp(28px,4vw,44px)}
+h3{font-size:clamp(20px,2.4vw,27px)}
+.lede{font-size:clamp(16px,1.6vw,19px);max-width:56ch;color:rgba(23,37,31,.78)}
+
+/* ---------- layout ---------- */
+.wrap{max-width:var(--maxw);margin:0 auto;padding-inline:var(--pad)}
+section{padding-block:clamp(56px,9vw,110px)}
+
+/* ---------- navbar ---------- */
+.nav{
+  position:sticky;top:0;z-index:50;
+  background:rgba(245,240,232,.88);
+  backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--line);
+}
+.nav-in{
+  max-width:var(--maxw);margin:0 auto;padding:14px var(--pad);
+  display:flex;align-items:center;gap:28px;
+}
+.brand{display:flex;align-items:center;gap:11px;text-decoration:none;margin-right:auto}
+.brand-mark{width:36px;height:36px;flex:none;display:block;object-fit:contain}
+.brand-name{font-family:var(--display);font-size:18px;letter-spacing:.01em;line-height:1.1}
+.brand-sub{font-size:9.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--label);font-weight:600}
+.nav-links{display:flex;gap:26px}
+.nav-links a{
+  text-decoration:none;font-size:14px;font-weight:500;
+  padding-bottom:2px;border-bottom:1px solid transparent;
+}
+.nav-links a:hover{border-color:var(--label)}
+@media(max-width:820px){.nav-links{display:none}}
+
+/* ---------- tombol ---------- */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:9px;
+  padding:13px 24px;border-radius:999px;border:1px solid transparent;
+  font-size:14px;font-weight:600;letter-spacing:.01em;
+  text-decoration:none;cursor:pointer;
+  transition:transform .18s ease,background .18s ease,color .18s ease;
+}
+.btn:hover{transform:translateY(-1px)}
+.btn-solid{background:var(--ink);color:var(--shell)}
+.btn-solid:hover{background:var(--deep)}
+.btn-line{border-color:var(--ink);color:var(--ink)}
+.btn-line:hover{background:var(--ink);color:var(--shell)}
+.btn-light{border-color:rgba(245,240,232,.5);color:var(--shell)}
+.btn-light:hover{background:var(--shell);color:var(--ink)}
+.btn-wa{background:var(--euca);color:var(--shell);width:100%;padding-block:16px;font-size:15px}
+.btn-wa:hover{background:var(--deep)}
+.btn-sm{padding:10px 18px;font-size:13px}
+:focus-visible{outline:2px solid var(--deep);outline-offset:3px;border-radius:4px}
+
+/* ---------- slot foto (diisi nanti) ---------- */
+.slot{
+  position:relative;background:var(--aqua);overflow:hidden;
+  display:grid;place-items:center;text-align:center;
+  border:1px solid rgba(23,37,31,.10);
+}
+.slot::after{
+  content:attr(data-label);
+  font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;
+  font-weight:600;color:var(--deep);padding:0 18px;
+}
+.slot img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.slot.arch{border-radius:280px 280px 10px 10px}
+
+/* ---------- hero ---------- */
+.hero{background:var(--deep);color:var(--shell);padding-block:clamp(40px,6vw,70px) 0}
+.hero .eyebrow{color:var(--aqua)}
+.hero h1{margin:16px 0 20px;font-weight:300}
+.hero h1 em{font-style:italic;color:var(--aqua)}
+.hero-lede{color:rgba(245,240,232,.72);max-width:44ch;font-size:17px}
+.hero-top{display:grid;grid-template-columns:1fr auto;gap:36px;align-items:end;padding-bottom:44px}
+.hero-actions{display:flex;gap:12px;flex-wrap:wrap;padding-bottom:6px}
+.hero-photos{display:grid;grid-template-columns:.72fr 1.3fr .72fr;gap:0;align-items:end}
+.hero-photos .slot{border-radius:200px 200px 8px 8px}
+.hero-photos .slot:nth-child(1){aspect-ratio:3/4.6}
+.hero-photos .slot:nth-child(2){aspect-ratio:4/5;position:relative;z-index:2}
+.hero-photos .slot:nth-child(3){aspect-ratio:3/4.6}
+.hero-pad{height:46px;background:var(--deep)}
+@media(max-width:820px){
+  .hero-top{grid-template-columns:1fr;align-items:start;gap:24px}
+  .hero-photos{grid-template-columns:1fr}
+  .hero-photos .slot:nth-child(2){margin-bottom:0;aspect-ratio:4/3}
+  .hero-photos .slot:nth-child(1),.hero-photos .slot:nth-child(3){display:none}
+  .hero-pad{display:none}
+}
+
+/* ---------- strip nilai ---------- */
+.strip{background:var(--shell);border-bottom:1px solid var(--line)}
+.strip-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;background:rgba(45,84,81,.35)}
+.strip-cell{background:var(--shell);padding:26px 24px 26px 0}
+.strip-cell:not(:first-child){padding-left:28px}
+.strip-cell dt{font-family:var(--display);font-size:23px;margin-bottom:3px}
+.strip-cell dd{font-size:13.5px;color:rgba(23,37,31,.7)}
+@media(max-width:700px){
+  .strip-grid{grid-template-columns:1fr}
+  .strip-cell{padding:20px 0}
+  .strip-cell:not(:first-child){padding-left:0;padding-top:20px}
+}
+
+/* ---------- kartu unit ---------- */
+.sec-head{display:grid;gap:14px;margin-bottom:44px;max-width:60ch}
+.units{display:grid;grid-template-columns:1fr 1fr;gap:clamp(20px,3vw,38px)}
+@media(max-width:860px){.units{grid-template-columns:1fr}}
+.card{
+  background:#fff;border:1px solid var(--line);border-radius:6px;overflow:hidden;
+  display:flex;flex-direction:column;
+  transition:box-shadow .25s ease,transform .25s ease;
+}
+.card:hover{box-shadow:0 18px 44px -28px rgba(11,37,40,.5);transform:translateY(-3px)}
+.card .slot{aspect-ratio:16/11;border:0;border-bottom:1px solid var(--line)}
+.card-body{padding:clamp(22px,3vw,32px);display:flex;flex-direction:column;gap:16px;flex:1}
+.card-title{display:flex;justify-content:space-between;align-items:baseline;gap:14px}
+.tag{
+  font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;font-weight:600;
+  color:var(--label);white-space:nowrap;
+}
+.price-from{display:flex;flex-direction:column;gap:4px;padding-block:4px}
+.price-from .price-eyebrow{font-size:11px;letter-spacing:.14em;text-transform:uppercase;font-weight:600;color:var(--label)}
+.price-from .price-row{display:flex;align-items:baseline;gap:8px}
+.price-from b{font-family:var(--display);font-size:29px;font-weight:400}
+.price-from .price-row span{font-size:13px;color:rgba(23,37,31,.6)}
+.card-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:auto;padding-top:6px}
+
+/* ---------- fasilitas ---------- */
+.amen{background:var(--aqua)}
+.amen-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:rgba(23,37,31,.12);border:1px solid rgba(23,37,31,.12);border-radius:5px;overflow:hidden}
+.amen-cell{background:var(--aqua);padding:26px 22px;min-height:132px;display:flex;flex-direction:column;gap:7px}
+.amen-cell h4{font-family:var(--display);font-size:18px;font-weight:400}
+.amen-cell p{font-size:13.5px;color:rgba(23,37,31,.72);line-height:1.55}
+@media(max-width:900px){.amen-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:520px){.amen-grid{grid-template-columns:1fr}}
+
+/* ---------- galeri ---------- */
+.gal{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.gal .slot{aspect-ratio:1}
+.gal .slot:first-child{grid-column:span 2;grid-row:span 2;aspect-ratio:auto}
+@media(max-width:700px){.gal{grid-template-columns:repeat(2,1fr)}.gal .slot:first-child{aspect-ratio:1}}
+
+/* ---------- halaman detail ---------- */
+.page{display:none}
+.page.on{display:block}
+.crumb{display:flex;align-items:center;gap:10px;font-size:13px;color:rgba(23,37,31,.6);padding-top:26px}
+.crumb a{text-decoration:none;font-weight:500;color:var(--ink)}
+.crumb a:hover{color:var(--euca)}
+.detail-head{padding-block:34px 40px;display:grid;gap:16px;max-width:62ch}
+.detail-grid{display:grid;grid-template-columns:1.6fr 1fr;gap:clamp(24px,4vw,56px);align-items:start}
+@media(max-width:940px){.detail-grid{grid-template-columns:1fr}}
+.block{margin-bottom:44px}
+.block h3{margin-bottom:16px}
+.block > p{max-width:62ch;color:rgba(23,37,31,.8)}
+
+.rates{width:100%;border-collapse:collapse;font-size:15px}
+.rates th{
+  text-align:left;font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;
+  font-weight:600;color:var(--label);padding-bottom:10px;border-bottom:1px solid var(--line);
+}
+.rates th:last-child,.rates td:last-child{text-align:right}
+.rates td{padding-block:15px;border-bottom:1px solid var(--line);vertical-align:top}
+.rates td:last-child{font-family:var(--display);font-size:19px;white-space:nowrap}
+.rates .rate-note{display:block;font-size:12.5px;color:rgba(23,37,31,.55);margin-top:2px}
+
+.rooms{list-style:none;display:grid;gap:12px}
+.rooms li{
+  display:flex;align-items:baseline;gap:14px;padding:15px 18px;
+  background:#fff;border:1px solid var(--line);border-radius:5px;font-size:15px;
+}
+.rooms li b{font-family:var(--display);font-size:13px;font-weight:500;color:var(--label);letter-spacing:.14em;text-transform:uppercase;flex:none}
+.notes{list-style:none;display:grid;gap:11px;font-size:15px}
+.notes li{display:flex;gap:11px;align-items:flex-start;color:rgba(23,37,31,.85)}
+.notes li::before{content:'';flex:none;width:6px;height:6px;border:1.5px solid var(--beige);transform:rotate(45deg);margin-top:8px}
+
+/* ---------- form booking ---------- */
+.book{
+  position:sticky;top:88px;background:#fff;border:1px solid var(--line);
+  border-radius:6px;padding:clamp(22px,3vw,30px);
+}
+.book h3{font-size:23px;margin-bottom:5px}
+.book-sub{font-size:13.5px;color:rgba(23,37,31,.65);margin-bottom:22px}
+.field{display:grid;gap:6px;margin-bottom:15px}
+.field label{font-size:11px;letter-spacing:.16em;text-transform:uppercase;font-weight:600;color:var(--label)}
+.field input,.field select{
+  width:100%;padding:12px 14px;border:1px solid var(--line);border-radius:4px;
+  background:var(--shell);font-size:15px;
+}
+.field input:focus,.field select:focus{outline:none;border-color:var(--euca);background:#fff}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.calc{
+  background:var(--aqua);border-radius:5px;padding:15px 17px;margin:6px 0 17px;
+  font-size:14px;display:none;
+}
+.calc.on{display:block}
+.calc-row{display:flex;justify-content:space-between;gap:12px;padding-block:3px}
+.calc-row.total{border-top:1px solid rgba(23,37,31,.15);margin-top:8px;padding-top:9px;font-weight:600}
+.calc-row.total b{font-family:var(--display);font-size:19px;font-weight:500}
+.calc small{display:block;margin-top:9px;font-size:11.5px;line-height:1.5;color:rgba(23,37,31,.6)}
+.err{color:#9C4221;font-size:13px;margin-bottom:12px;display:none}
+.err.on{display:block}
+.book-alt{text-align:center;font-size:13px;margin-top:14px;color:rgba(23,37,31,.6)}
+.book-alt a{color:var(--label);font-weight:600}
+
+/* ---------- CTA & footer ---------- */
+.cta{background:var(--deep);color:var(--shell);text-align:center}
+
+/* ---------- pop up reservasi WA ---------- */
+.modal-overlay{
+  display:none;position:fixed;inset:0;z-index:100;
+  background:rgba(23,37,31,.55);backdrop-filter:blur(3px);
+  padding:20px;align-items:center;justify-content:center;
+}
+.modal-overlay.on{display:flex}
+.modal{
+  position:relative;width:100%;max-width:420px;max-height:90vh;overflow-y:auto;
+  background:var(--shell);border-radius:8px;padding:clamp(26px,4vw,34px);
+  box-shadow:0 30px 70px -20px rgba(23,37,31,.45);
+}
+.modal h3{font-size:24px;margin-bottom:5px;padding-right:26px}
+.modal-close{
+  position:absolute;top:16px;right:16px;width:32px;height:32px;border-radius:50%;
+  border:1px solid var(--line);background:transparent;font-size:20px;line-height:1;
+  color:var(--ink);cursor:pointer;display:grid;place-items:center;
+}
+.modal-close:hover{background:var(--aqua)}
+@media(prefers-reduced-motion:no-preference){
+  .modal{animation:modalIn .22s ease}
+}
+@keyframes modalIn{from{opacity:0;transform:translateY(10px) scale(.98)}to{opacity:1;transform:none}}
+.cta h2{margin-bottom:16px;font-weight:300}
+.cta h2 em{font-style:italic;color:var(--aqua)}
+.cta p{color:rgba(245,240,232,.7);max-width:46ch;margin:0 auto 28px}
+footer{background:var(--deep);color:rgba(245,240,232,.62);border-top:1px solid rgba(245,240,232,.12);padding-block:44px;font-size:14px}
+.foot{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:32px}
+.foot h5{font-family:var(--display);font-size:17px;color:var(--shell);font-weight:400;margin-bottom:12px}
+.foot a{text-decoration:none}
+.foot a:hover{color:var(--shell)}
+.foot ul{list-style:none;display:grid;gap:8px}
+.foot-base{margin-top:36px;padding-top:20px;border-top:1px solid rgba(245,240,232,.12);font-size:12.5px;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+@media(max-width:760px){.foot{grid-template-columns:1fr;gap:26px}}
+
+/* ---------- motion ---------- */
+.rise{opacity:0;transform:translateY(22px);transition:opacity .7s ease,transform .7s ease}
+.rise.in{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){
+  *{animation:none!important;transition:none!important}
+  .rise{opacity:1;transform:none}
+  html{scroll-behavior:auto}
+}
+</style>
+</head>
+<body>
+
+<!-- ================= NAVBAR ================= -->
+<nav class="nav">
+  <div class="nav-in">
+    <a href="#" class="brand" data-nav="home">
+      <img class="brand-mark" src="img/logo-ndalem-aa.png" alt="Logo Ndalem AA Homestay">
+      <span>
+        <span class="brand-name">Ndalem AA</span><br>
+        <span class="brand-sub">Homestay</span>
+      </span>
+    </a>
+    <div class="nav-links">
+      <a href="#" data-nav="home">Beranda</a>
+      <a href="#" data-nav="home" data-scroll="unit">Unit</a>
+      <a href="#" data-nav="home" data-scroll="galeri">Galeri</a>
+    </div>
+    <a class="btn btn-solid btn-sm wa-trigger" id="navWa" href="#">Reservasi via WhatsApp</a>
+  </div>
+</nav>
+
+<!-- ================= HALAMAN: BERANDA ================= -->
+<main id="page-home" class="page on">
+
+  <header class="hero">
+    <div class="wrap">
+      <div class="hero-top">
+        <div>
+          <p class="eyebrow">Dua unit · Tiga kamar tidur · Sampai 12 tamu</p>
+          <h1>Ndalem untuk<br><em>singgah bersama.</em></h1>
+          <p class="hero-lede">Dua rumah utuh yang bisa disewa satu keluarga penuh — bukan kamar hotel yang dibagi-bagi. Datang rombongan, masak bareng, tidur nyenyak.</p>
+        </div>
+        <div class="hero-actions">
+          <a href="#unit" class="btn btn-light">Lihat kedua unit</a>
+          <a href="#" id="heroWa" class="btn btn-light wa-trigger">Reservasi via WhatsApp</a>
+        </div>
+      </div>
+
+      <!-- GANTI FOTO: hapus data-label, isi <img src="foto/xxx.jpg" alt=""> di dalam .slot -->
+      <div class="hero-photos">
+        <div class="slot"><img src="img/tampak-depan-ndalem-aa-homestay-2-02.jpg" alt="Tampak depan Ndalem AA Homestay 2" loading="eager"></div>
+        <div class="slot arch"><img src="img/teras-dan-taman-ndalem-aa-homestay-2-03.jpg" alt="Teras dan taman Ndalem AA Homestay 2" loading="eager"></div>
+        <div class="slot"><img src="img/ruang-keluarga-ndalem-aa-homestay-2-04.jpg" alt="Ruang keluarga Ndalem AA Homestay 2" loading="eager"></div>
+      </div>
+    </div>
+  </header>
+  <div class="hero-pad"></div>
+
+  <div class="strip">
+    <div class="wrap">
+      <dl class="strip-grid">
+        <div class="strip-cell">
+          <dt>Satu rumah, satu rombongan</dt>
+          <dd>Tidak berbagi dengan tamu lain. Seluruh unit jadi milik kamu selama menginap.</dd>
+        </div>
+        <div class="strip-cell">
+          <dt>8 tamu tanpa biaya tambahan</dt>
+          <dd>6 dewasa dan 2 anak sudah termasuk harga per malam di kedua unit.</dd>
+        </div>
+        <div class="strip-cell">
+          <dt>Harga terbaik lewat WhatsApp</dt>
+          <dd>Tarif di halaman ini khusus pemesanan langsung, bukan lewat platform.</dd>
+        </div>
+      </dl>
+    </div>
+  </div>
+
+  <!-- ---- UNIT ---- -->
+  <section id="unit">
+    <div class="wrap">
+      <div class="sec-head rise">
+        <p class="eyebrow">Pilih ndalem</p>
+        <h2>Dua unit, dua suasana</h2>
+        <p class="lede">Keduanya punya tiga kamar tidur. Unit 1 lebih lapang untuk rombongan besar sampai 12 orang dengan extrabed. Unit 2 lebih privat dengan kapasitas tetap 8 orang.</p>
+      </div>
+      <div class="units" id="unitCards"></div>
+    </div>
+  </section>
+
+  <!-- ---- GALERI ---- -->
+  <section id="galeri">
+    <div class="wrap">
+      <div class="sec-head rise">
+        <p class="eyebrow">Galeri</p>
+        <h2>Sekilas isi rumah</h2>
+      </div>
+      <div class="gal rise">
+        <div class="slot"><img src="img/ruang-keluarga-dan-dapur-ndalem-aa-homes-05.jpg" alt="Ruang keluarga dan dapur Ndalem AA Homestay 2" loading="lazy"></div>
+        <div class="slot"><img src="img/kamar-tidur-ndalem-aa-homestay-2-06.jpg" alt="Kamar tidur Ndalem AA Homestay 2" loading="lazy"></div>
+        <div class="slot"><img src="img/ruang-tamu-ndalem-aa-homestay-2-07.jpg" alt="Ruang tamu Ndalem AA Homestay 2" loading="lazy"></div>
+        <div class="slot"><img src="img/kamar-mandi-ndalem-aa-homestay-2-08.jpg" alt="Kamar mandi Ndalem AA Homestay 2" loading="lazy"></div>
+        <div class="slot"><img src="img/kamar-tidur-ndalem-aa-homestay-2-09.jpg" alt="Kamar tidur Ndalem AA Homestay 2" loading="lazy"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta">
+    <div class="wrap">
+      <p class="eyebrow">Siap menginap?</p>
+      <h2>Tanya tanggalnya <em>dulu</em>, sisanya kami bantu.</h2>
+      <p>Balasan biasanya cepat. Sebutkan unit, tanggal, dan jumlah tamu — kami cek ketersediaannya.</p>
+      <a href="#" id="ctaWa" class="btn btn-light wa-trigger">Reservasi via WhatsApp</a>
+    </div>
+  </section>
+</main>
+
+<!-- ================= HALAMAN: DETAIL UNIT ================= -->
+<main id="page-unit" class="page">
+  <div class="wrap">
+    <p class="crumb"><a href="#" data-nav="home">Beranda</a> <span>/</span> <span id="dCrumb"></span></p>
+    <div class="detail-head">
+      <p class="eyebrow" id="dTag"></p>
+      <h2 id="dTitle"></h2>
+      <p class="lede" id="dDesc"></p>
+    </div>
+    <div class="gal" id="dGallery" style="margin-bottom:56px"></div>
+
+    <div class="detail-grid" style="padding-bottom:90px">
+      <div>
+        <div class="block">
+          <h3>Tarif per malam</h3>
+          <table class="rates"><thead><tr><th>Periode</th><th>Harga</th></tr></thead><tbody id="dRates"></tbody></table>
+          <p style="margin-top:14px;font-size:13.5px;color:rgba(23,37,31,.6)">Tarif ini berlaku khusus untuk pemesanan langsung lewat WhatsApp.</p>
+        </div>
+        <div class="block">
+          <h3>Kamar tidur</h3>
+          <ul class="rooms" id="dRooms"></ul>
+        </div>
+        <div class="block">
+          <h3>Fasilitas</h3>
+          <ul class="notes">
+            <li><b>Tiga kamar tidur</b> — kombinasi king dan queen size, muat satu keluarga besar sekaligus.</li>
+            <li><b>Ruang keluarga</b> — area kumpul bersama untuk ngobrol sampai larut tanpa ganggu tetangga.</li>
+            <li><b>Dapur</b> — bebas masak sendiri selama menginap.</li>
+            <li><b>Area parkir</b> — muat kendaraan rombongan di halaman.</li>
+            <li><b>Check-in dibantu admin</b> — konfirmasi jam kedatangan lewat WhatsApp sebelum hari-H.</li>
+          </ul>
+        </div>
+        <div class="block">
+          <h3>Kapasitas &amp; ketentuan</h3>
+          <ul class="notes" id="dNotes"></ul>
+        </div>
+        <div class="block" style="margin-bottom:0">
+          <h3>Juga terdaftar di Airbnb</h3>
+          <p style="margin-bottom:16px">Boleh pesan lewat sana, tapi tarif di halaman ini hanya berlaku untuk pemesanan langsung.</p>
+          <a class="btn btn-line" id="dAirbnb" href="#" target="_blank" rel="noopener">Buka halaman Airbnb</a>
+        </div>
+      </div>
+
+      <!-- FORM BOOKING -->
+      <aside class="book">
+        <h3>Pesan unit ini</h3>
+        <p class="book-sub">Isi datanya, nanti langsung terkirim rapi ke WhatsApp admin.</p>
+        <div class="field">
+          <label for="fUnit">Unit</label>
+          <select id="fUnit">
+            <option value="u1">Ndalem AA Homestay 1</option>
+            <option value="u2">Ndalem AA Homestay 2</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="fName">Nama</label>
+          <input id="fName" type="text" placeholder="Nama kamu" autocomplete="name">
+        </div>
+        <div class="field">
+          <label for="fPax">Jumlah tamu</label>
+          <input id="fPax" type="number" min="1" max="12" value="4">
+        </div>
+        <div class="two">
+          <div class="field"><label for="fIn">Check-in</label><input id="fIn" type="date"></div>
+          <div class="field"><label for="fOut">Check-out</label><input id="fOut" type="date"></div>
+        </div>
+        <div class="calc" id="fCalc"></div>
+        <p class="err" id="fErr"></p>
+        <button class="btn btn-wa" id="fSend" type="button">Kirim ke WhatsApp</button>
+        <p class="book-alt">Atau chat bebas dulu di <a href="#" id="fFree" target="_blank" rel="noopener">+62 813-8990-1651</a></p>
+      </aside>
+    </div>
+  </div>
+</main>
+
+<!-- ================= FOOTER ================= -->
+<footer>
+  <div class="wrap">
+    <div class="foot">
+      <div>
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
+          <img src="img/logo-ndalem-aa.png" alt="Logo Ndalem AA Homestay" style="width:34px;height:34px;display:block">
+          <h5 style="margin:0">Ndalem AA Homestay</h5>
+        </div>
+        <p style="max-width:34ch">Dua unit rumah yang cocok untuk keluarga dan rombongan. Pemesanan langsung lewat WhatsApp lebih hemat.</p>
+      </div>
+      <div>
+        <h5>Unit</h5>
+        <ul>
+          <li><a href="#" data-nav="u1">Ndalem AA Homestay 1</a></li>
+          <li><a href="#" data-nav="u2">Ndalem AA Homestay 2</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Kontak</h5>
+        <ul>
+          <li><a href="#" id="footWa" class="wa-trigger">+62 813-8990-1651</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-base">
+      <span>© <span id="yr"></span> Ndalem AA Homestay</span>
+      <span>Harga sewaktu-waktu dapat berubah.</span>
+    </div>
+  </div>
+</footer>
+
+<!-- ================= POP UP: RESERVASI WHATSAPP ================= -->
+<div class="modal-overlay" id="waOverlay">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="waModalTitle">
+    <button class="modal-close" id="waClose" type="button" aria-label="Tutup pop up">&times;</button>
+    <h3 id="waModalTitle">Reservasi via WhatsApp</h3>
+    <p class="book-sub">Isi datanya, nanti langsung terkirim rapi ke WhatsApp admin.</p>
+
+    <div class="field">
+      <label for="mName">Nama</label>
+      <input id="mName" type="text" placeholder="Nama kamu" autocomplete="name">
+    </div>
+    <div class="two">
+      <div class="field"><label for="mIn">Tanggal Check-In</label><input id="mIn" type="date"></div>
+      <div class="field"><label for="mOut">Tanggal Check-Out</label><input id="mOut" type="date"></div>
+    </div>
+    <div class="field">
+      <label for="mPax">Jumlah Pax</label>
+      <input id="mPax" type="number" min="1" max="12" value="2">
+    </div>
+    <div class="field">
+      <label for="mProp">Pilih Properti</label>
+      <select id="mProp">
+        <option value="u1">Ndalem AA Homestay 1</option>
+        <option value="u2">Ndalem AA Homestay 2</option>
+      </select>
+    </div>
+
+    <p class="err" id="mErr"></p>
+    <button class="btn btn-wa" id="mSend" type="button">Reservasi via WhatsApp</button>
+  </div>
+</div>
+
+<script>
+/* =====================================================================
+   KONFIGURASI — ubah semuanya dari sini
+   ===================================================================== */
+const CONFIG = {
+  // GANTI nomor WhatsApp admin. Format: 62 + nomor tanpa 0 di depan.
+  waNumber: "6281389901651",
+
+  units: {
+    u1: {
+      name: "Ndalem AA Homestay 1",
+      tag: "Unit 1 · Sampai 12 tamu",
+      desc: "Unit paling lapang. Tiga kamar tidur dengan dua king size dan satu queen size, ditambah opsi extrabed untuk rombongan besar sampai 12 orang.",
+      airbnb: "https://airbnb.com/h/ndalemaahomestay1",
+      rates: [
+        { label:"Weekday", note:"Minggu–Kamis", price:750000 },
+        { label:"Weekend", note:"Jumat & Sabtu", price:800000 },
+        { label:"Long weekend & libur nasional", note:"", price:900000 },
+        { label:"Peak season", note:"Lebaran, Natal & Tahun Baru", price:1500000 }
+      ],
+      rooms: [
+        { n:"Kamar 1", d:"King size bed" },
+        { n:"Kamar 2", d:"King size bed" },
+        { n:"Kamar 3", d:"Queen size bed" }
+      ],
+      notes: [
+        "Maksimal 8 tamu tanpa biaya tambahan (6 dewasa + 2 anak).",
+        "Tamu dewasa lebih dari 6 orang dikenakan Rp 100.000 per orang untuk extrabed.",
+        "Kapasitas maksimal setelah extrabed adalah 12 orang.",
+        "Handuk berbayar Rp 30.000 per 2 pcs.",
+        "Menginap 3 malam atau lebih dapat 6 pcs handuk gratis.",
+        "Kebutuhan handuk mohon ditanyakan dulu ke admin."
+      ],
+      maxPax: 12,
+      photo: null,        // foto menyusul — isi "img/u1-xxx.jpg" begitu ada
+      gallery: []         // isi array path foto begitu ada, urutan bebas
+    },
+    u2: {
+      name: "Ndalem AA Homestay 2",
+      tag: "Unit 2 · Sampai 8 tamu",
+      desc: "Unit yang lebih privat. Tiga kamar tidur dengan satu king size dan dua queen size, kapasitas tetap 8 orang tanpa extrabed.",
+      airbnb: "https://airbnb.com/h/ndalemaahomestay2",
+      rates: [
+        { label:"Weekday", note:"Minggu–Kamis", price:1250000 },
+        { label:"Weekend", note:"Jumat & Sabtu", price:1350000 },
+        { label:"Long weekend & libur nasional", note:"", price:1450000 },
+        { label:"Peak season", note:"Lebaran, Natal & Tahun Baru", price:1900000 }
+      ],
+      rooms: [
+        { n:"Kamar 1", d:"King size bed — 200 × 200 cm" },
+        { n:"Kamar 2", d:"Queen size bed — 160 × 200 cm" },
+        { n:"Kamar 3", d:"Queen size bed — 160 × 200 cm" }
+      ],
+      notes: [
+        "Maksimal 8 tamu tanpa biaya tambahan (6 dewasa + 2 anak).",
+        "Kapasitas maksimal 8 orang, tidak tersedia extrabed."
+      ],
+      maxPax: 8,
+      photo: "img/tampak-depan-ndalem-aa-homestay-2-02.jpg",
+      gallery: [
+        { src:"img/ruang-keluarga-ndalem-aa-homestay-2-04.jpg",      alt:"Ruang keluarga" },
+        { src:"img/kamar-tidur-ndalem-aa-homestay-2-06.jpg",             alt:"Kamar tidur 1" },
+        { src:"img/kamar-tidur-2-ndalem-aa-homestay-2.jpg",             alt:"Kamar tidur 2" },
+        { src:"img/kamar-tidur-ndalem-aa-homestay-2-09.jpg",             alt:"Kamar tidur 3" },
+        { src:"img/kamar-mandi-ndalem-aa-homestay-2-08.jpg",       alt:"Kamar mandi" }
+      ]
+    }
+  }
+};
+
+/* ---------- util ---------- */
+const $  = (s,r=document)=>r.querySelector(s);
+const $$ = (s,r=document)=>[...r.querySelectorAll(s)];
+const rp = n => "Rp " + n.toLocaleString("id-ID");
+const waLink = txt => `https://wa.me/${CONFIG.waNumber}?text=${encodeURIComponent(txt)}`;
+const fmtDate = str => {
+  const d = new Date(str+"T00:00:00");
+  return d.toLocaleDateString("id-ID",{weekday:"long",day:"numeric",month:"long",year:"numeric"});
+};
+
+/* ---------- link WA umum (khusus chat bebas di form booking) ---------- */
+const generic = "Halo Admin Ndalem AA Homestay, saya mau tanya ketersediaan kamar.";
+const freeEl = $("#fFree"); if(freeEl) freeEl.href = waLink(generic);
+
+/* ---------- pop up reservasi WhatsApp ---------- */
+const waOverlay = $("#waOverlay");
+function openWaModal(unitKey){
+  if(unitKey && CONFIG.units[unitKey]) $("#mProp").value = unitKey;
+  $("#mErr").classList.remove("on");
+  waOverlay.classList.add("on");
+  document.body.style.overflow = "hidden";
+  setTimeout(()=>$("#mName").focus(),50);
+}
+function closeWaModal(){
+  waOverlay.classList.remove("on");
+  document.body.style.overflow = "";
+}
+document.addEventListener("click",e=>{
+  const trig = e.target.closest(".wa-trigger");
+  if(trig){ e.preventDefault(); openWaModal(trig.dataset.unit); return; }
+  if(e.target === waOverlay) closeWaModal();
+});
+$("#waClose").addEventListener("click",closeWaModal);
+addEventListener("keydown",e=>{ if(e.key === "Escape" && waOverlay.classList.contains("on")) closeWaModal(); });
+
+$("#mSend").addEventListener("click",()=>{
+  const err = $("#mErr");
+  const u    = CONFIG.units[$("#mProp").value];
+  const name = $("#mName").value.trim();
+  const pax  = parseInt($("#mPax").value,10);
+  const a = $("#mIn").value, b = $("#mOut").value;
+
+  const fail = m => { err.textContent = m; err.classList.add("on"); };
+  err.classList.remove("on");
+
+  if(!name)           return fail("Isi nama dulu ya.");
+  if(!a || !b)        return fail("Pilih tanggal check-in dan check-out.");
+  if(new Date(b) <= new Date(a)) return fail("Tanggal check-out harus setelah check-in.");
+  if(!pax || pax < 1) return fail("Isi jumlah pax.");
+
+  const msg =
+`Halo Admin Ndalem AA Homestay, saya mau reservasi:
+
+Nama: ${name}
+Tanggal Check-In: ${fmtDate(a)}
+Tanggal Check-Out: ${fmtDate(b)}
+Jumlah Pax: ${pax} orang
+Pilih Properti: ${u.name}
+
+Mohon info untuk rate dan ketersediaan di hari tersebut, Terimakasih.`;
+
+  window.open(waLink(msg),"_blank","noopener");
+  closeWaModal();
+});
+
+/* ---------- kartu unit di beranda ---------- */
+$("#unitCards").innerHTML = Object.entries(CONFIG.units).map(([key,u])=>`
+  <article class="card rise">
+    <div class="slot"${u.photo?`><img src="${u.photo}" alt="${u.name}" loading="lazy"`:` data-label="Foto ${u.name}"`}></div>
+    <div class="card-body">
+      <div class="card-title">
+        <h3>${u.name}</h3>
+        <span class="tag">${u.maxPax} tamu</span>
+      </div>
+      <p style="font-size:15px;color:rgba(23,37,31,.75)">${u.desc}</p>
+      <div class="price-from">
+        <span class="price-eyebrow">Mulai dari</span>
+        <div class="price-row"><b>${rp(u.rates[0].price)}</b><span>/ malam</span></div>
+      </div>
+      <div class="card-actions">
+        <a class="btn btn-solid btn-sm" href="#" data-nav="${key}">Lihat detail</a>
+        <a class="btn btn-line btn-sm wa-trigger" href="#" data-unit="${key}">Reservasi via WhatsApp</a>
+        <a class="btn btn-line btn-sm" href="${u.airbnb}" target="_blank" rel="noopener">Reservasi via Airbnb</a>
+      </div>
+    </div>
+  </article>`).join("");
+
+/* ---------- render halaman detail ---------- */
+function renderUnit(key){
+  const u = CONFIG.units[key];
+  $("#dCrumb").textContent = u.name;
+  $("#dTag").textContent   = u.tag;
+  $("#dTitle").textContent = u.name;
+  $("#dDesc").textContent  = u.desc;
+  document.title = u.name + " — Ndalem AA Homestay";
+
+  $("#dGallery").innerHTML = (u.gallery && u.gallery.length)
+    ? u.gallery.map(g=>`<div class="slot"><img src="${g.src}" alt="${g.alt} — ${u.name}" loading="lazy"></div>`).join("")
+    : [`Foto utama ${u.name}`,"Kamar tidur","Ruang keluarga","Dapur","Kamar mandi"]
+      .map(l=>`<div class="slot" data-label="${l}"></div>`).join("");
+
+  $("#dRates").innerHTML = u.rates.map(r=>`
+    <tr><td>${r.label}${r.note?`<span class="rate-note">${r.note}</span>`:""}</td>
+        <td>${rp(r.price)}</td></tr>`).join("");
+
+  $("#dRooms").innerHTML = u.rooms.map(r=>`<li><b>${r.n}</b><span>${r.d}</span></li>`).join("");
+  $("#dNotes").innerHTML = u.notes.map(n=>`<li>${n}</li>`).join("");
+  $("#dAirbnb").href = u.airbnb;
+  $("#fUnit").value = key;
+  $("#fPax").max = u.maxPax;
+  calc();
+}
+
+/* ---------- estimasi harga ---------- */
+function calc(){
+  const box = $("#fCalc"), u = CONFIG.units[$("#fUnit").value];
+  const a = $("#fIn").value, b = $("#fOut").value;
+  if(!a || !b){ box.classList.remove("on"); return; }
+  const d1 = new Date(a+"T00:00:00"), d2 = new Date(b+"T00:00:00");
+  const nights = Math.round((d2-d1)/86400000);
+  if(nights < 1){ box.classList.remove("on"); return; }
+
+  let total = 0;
+  for(let i=0;i<nights;i++){
+    const d = new Date(d1); d.setDate(d.getDate()+i);
+    const wd = d.getDay();                      // 5 = Jumat, 6 = Sabtu
+    total += (wd===5||wd===6) ? u.rates[1].price : u.rates[0].price;
+  }
+  box.innerHTML = `
+    <div class="calc-row"><span>Durasi menginap</span><span>${nights} malam</span></div>
+    <div class="calc-row total"><span>Estimasi</span><b>${rp(total)}</b></div>
+    <small>Hitungan tarif weekday &amp; weekend saja. Long weekend, libur nasional, peak season, extrabed, dan handuk belum termasuk — admin akan konfirmasi harga final.</small>`;
+  box.classList.add("on");
+}
+["fUnit","fIn","fOut"].forEach(id=>$("#"+id).addEventListener("change",calc));
+
+/* ---------- kirim ke WhatsApp ---------- */
+$("#fSend").addEventListener("click",()=>{
+  const err = $("#fErr");
+  const u    = CONFIG.units[$("#fUnit").value];
+  const name = $("#fName").value.trim();
+  const pax  = parseInt($("#fPax").value,10);
+  const a = $("#fIn").value, b = $("#fOut").value;
+
+  const fail = m => { err.textContent = m; err.classList.add("on"); };
+  err.classList.remove("on");
+
+  if(!name)              return fail("Isi nama dulu ya.");
+  if(!pax || pax < 1)    return fail("Isi jumlah tamu.");
+  if(pax > u.maxPax)     return fail(`${u.name} maksimal ${u.maxPax} tamu. Pilih unit lain atau kurangi jumlah tamu.`);
+  if(!a || !b)           return fail("Pilih tanggal check-in dan check-out.");
+
+  const nights = Math.round((new Date(b) - new Date(a))/86400000);
+  if(nights < 1)         return fail("Tanggal check-out harus setelah check-in.");
+
+  const msg =
+`Halo Admin Ndalem AA Homestay, saya mau booking:
+
+Unit: ${u.name}
+Nama: ${name}
+Jumlah tamu: ${pax} orang
+Check-in: ${fmtDate(a)}
+Check-out: ${fmtDate(b)}
+Durasi: ${nights} malam
+
+Apakah tanggalnya masih tersedia? Terima kasih.`;
+
+  window.open(waLink(msg),"_blank","noopener");
+});
+
+/* ---------- navigasi (murni JS, tidak menyentuh URL/hash) ---------- */
+function goHome(scrollId){
+  $("#page-unit").classList.remove("on");
+  $("#page-home").classList.add("on");
+  document.title = "Ndalem AA Homestay — Dua ndalem untuk singgah";
+  if(scrollId){
+    const t = document.getElementById(scrollId);
+    if(t) t.scrollIntoView({behavior:"smooth"});
+  }else{
+    window.scrollTo(0,0);
+  }
+  observe();
+}
+function goUnit(key){
+  if(!CONFIG.units[key]) return goHome();
+  $("#page-home").classList.remove("on");
+  $("#page-unit").classList.add("on");
+  renderUnit(key);
+  window.scrollTo(0,0);
+  observe();
+}
+document.addEventListener("click",e=>{
+  const nav = e.target.closest("[data-nav]");
+  if(!nav) return;
+  e.preventDefault();
+  const target = nav.dataset.nav;
+  if(target === "home") goHome(nav.dataset.scroll);
+  else goUnit(target);
+});
+
+/* ---------- animasi masuk ---------- */
+let io;
+function observe(){
+  if(!io) io = new IntersectionObserver(es=>{
+    es.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add("in"); io.unobserve(e.target); } });
+  },{threshold:.12});
+  $$(".rise:not(.in)").forEach(el=>io.observe(el));
+}
+
+/* ---------- init ---------- */
+$("#yr").textContent = new Date().getFullYear();
+const today = new Date().toISOString().split("T")[0];
+$("#fIn").min = today; $("#fOut").min = today;
+$("#fIn").addEventListener("change",()=>{ $("#fOut").min = $("#fIn").value; });
+$("#mIn").min = today; $("#mOut").min = today;
+$("#mIn").addEventListener("change",()=>{ $("#mOut").min = $("#mIn").value; });
+observe(); // halaman dimulai di beranda; tidak baca hash URL sama sekali
+</script>
+</body>
+</html>
